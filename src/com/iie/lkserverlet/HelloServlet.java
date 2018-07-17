@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "HelloServlet")
 public class HelloServlet extends HttpServlet {
@@ -19,11 +20,6 @@ public class HelloServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("You post me!");
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletConfig config = getServletConfig();
         ServletContext sc = config.getServletContext();
         System.out.println("You get me!");
@@ -32,6 +28,11 @@ public class HelloServlet extends HttpServlet {
         System.out.println(config.getInitParameter("password"));
         System.out.println(sc.getInitParameter("jdbc-url"));
         System.out.println(sc.getRealPath("/index.jsp"));
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/msword");
+        response.sendRedirect("hospital.doc");
     }
 
     @Override

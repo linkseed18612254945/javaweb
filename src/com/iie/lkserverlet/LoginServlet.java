@@ -1,5 +1,7 @@
 package com.iie.lkserverlet;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,16 +17,25 @@ import java.util.Map;
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("请求来了");
+        ServletConfig config = getServletConfig();
+        ServletContext sc = config.getServletContext();
+        String adminName = sc.getInitParameter("admin");
+        String adminPassword = sc.getInitParameter("adminPassword");
         PrintWriter out = response.getWriter();
-        out.println(request.getRequestURI());
-        out.println(request.getMethod());
-        out.println("User: " + request.getParameter("user"));
-        out.println("Password: " + request.getParameter("password"));
-        out.println("Interest: ");
-        for (String interest: request.getParameterValues("interest")){
-            out.print(interest + " ");
+        String user = request.getParameter("user");
+        String password = request.getParameter("password");
+        if (user.equals(adminName) && password.equals(adminPassword)){
+            out.println("Hello Boss! " + user);
+        }else{
+            out.println(request.getRequestURI());
+            out.println(request.getMethod());
+            out.println("User: " + user);
+            out.println("Password: " + password);
+            out.println("Interest: ");
+            for (String interest: request.getParameterValues("interest")){
+                out.print(interest + " ");
+            }
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
